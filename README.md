@@ -1,1 +1,3 @@
-# NotifiationsAPI
+# NotificationsAPI
+
+Tiago Pedrosa 93389
