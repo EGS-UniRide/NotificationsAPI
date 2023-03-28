@@ -5,7 +5,9 @@ from pydantic import EmailStr, BaseModel
 from typing import List
 
 class EmailSchema(BaseModel):
-    email: List[EmailStr]
+    address: str
+    subject: str
+    description: str
 
 
 conf = ConnectionConfig(
@@ -29,19 +31,19 @@ async def root():
 
 @app.post("/email")
 async def simple_send(email: EmailSchema):
-    html = """<p>You have recieved an Email from the UniRinde EmailAPI</p> """
 
-    print(email)
+    print(email.address.split())
 
     print(email.dict().get("email"))
 
     message = MessageSchema(
-        subject="API Email Sending",
-        recipients=email.dict().get("email"), # List of recipients
-        body=html,
+        subject=email.subject,
+        recipients=email.address.split(), # List of recipients
+        body=email.description,
         subtype=MessageType.html
         )
 
     fm = FastMail(conf)
     await fm.send_message(message)
     return JSONResponse(status_code=200, content={"message": "email has been sent"})
+
