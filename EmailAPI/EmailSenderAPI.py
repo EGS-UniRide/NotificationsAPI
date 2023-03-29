@@ -29,7 +29,26 @@ app = FastAPI()
 async def root():
     return {"message":"EmailAPI"}
 
-@app.post("/email")
+@app.post("/v1/email")
+async def simple_send(email: EmailSchema):
+    html = """<p>You have recieved an Email from the UniRinde EmailAPI</p> """
+
+    print(email)
+
+    print(email.dict().get("email"))
+
+    message = MessageSchema(
+        subject="API Email Sending",
+        recipients=email.dict().get("email"), # List of recipients
+        body=html,
+        subtype=MessageType.html
+        )
+
+    fm = FastMail(conf)
+    await fm.send_message(message)
+    return JSONResponse(status_code=200, content={"message": "email has been sent"})
+
+@app.post("/v2/email")
 async def simple_send(email: EmailSchema):
 
     print(email.address.split())
@@ -38,7 +57,7 @@ async def simple_send(email: EmailSchema):
 
     message = MessageSchema(
         subject=email.subject,
-        recipients=email.address.split(), # List of recipients
+        recipients=email.address.split(),
         body=email.description,
         subtype=MessageType.html
         )
