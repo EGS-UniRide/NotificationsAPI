@@ -8,7 +8,7 @@ $ pip install fastapi-mail
 
 # How to run
 
-Create Virtual Environment
+Create Virtual Environment and Install Dependencies
 ```
 python3 -m venv venv
 source venv/bin/activate
