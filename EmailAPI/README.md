@@ -12,4 +12,4 @@ pip install uvicorn[standard]
 
 # How to run
 
-While in the API directory type in the terminal `$ uvicorn EmailSenderAPI:app --reload` to launch the API.
+While in the API directory type in the terminal `$ uvicorn EmailSenderAPI:app --port 8010` to launch the API.
