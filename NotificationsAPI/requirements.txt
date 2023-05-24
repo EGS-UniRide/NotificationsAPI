@@ -1,0 +1,4 @@
+fastapi==0.95.0
+fastapi_mail==1.2.7
+pydantic==1.10.7
+starlette==0.26.1
