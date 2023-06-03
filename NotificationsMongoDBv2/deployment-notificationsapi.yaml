@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notifications-api
+  namespace: egs-uniride
+spec:
+  selector:
+    matchLabels:
+      app: notifications-api
+  template:
+    metadata:
+      labels:
+        app: notifications-api
+    spec:
+      containers:
+        - name: notifications-api
+          image: registry.deti:5000/egs-uniride/notifications-api:0002
+          ports:
+            - containerPort: 8010
+          volumeMounts:
+          - name: notificationsapi-secret
+            mountPath: "/tmp/secrets"
+            readOnly: true
+      volumes:
+      - name: notificationsapi-secret
+        secret:
+          secretName: notificationsapi-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notificationsapi-svc
+  namespace: egs-uniride
+spec:
+  ports:
+    - protocol: TCP
+      port: 8010
+      #nodePort: 32080
+      name: notapi-svc-port
+  selector:
+    app: notifications-api
+  #type: NodePort
+  type: ClusterIP

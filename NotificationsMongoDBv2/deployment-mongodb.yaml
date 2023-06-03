@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: authdb-secrets
+  namespace: egs-uniride
+type: Opaque
+data:
+  dbauth_user: ZWdzLXVuaXJpZGU=
+  dbauth_password: aXN0b2VmYWNpbA==
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notificationsapi-mongodb
+  namespace: egs-uniride
+spec:
+  selector:
+    matchLabels:
+      app: notificationsapi-mongodb
+  template:
+    metadata:
+      labels:
+        app: notificationsapi-mongodb
+    spec:
+      containers:
+        - name: notificationsapi-mongodb
+          image: mongo
+          env:
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: authdb-secrets
+                key: dbauth_password
+          - name: MONGO_INITDB_ROOT_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: authdb-secrets
+                key: dbauth_user
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: notificationsapi-mongodb-data
+              mountPath: /var/lib/mongodb
+      volumes:
+        - name: notificationsapi-mongodb-data
+          persistentVolumeClaim:
+            claimName: notificationsapi-mongodb-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notificationsapi-mongodb-service
+  namespace: egs-uniride
+spec:
+  selector:
+    app: notificationsapi-mongodb
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+  type: ClusterIP
