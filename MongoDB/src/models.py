@@ -82,7 +82,7 @@ class TripUpdate(BaseModel):
     id: str = Field(alias="_id")
     begining: Optional[str]
     destination: Optional[str]
-    date: Optional[str]                         #date is still string
+    date: Optional[str]                         #date is string
     username: Optional[str]
     driverId: Optional[str]
 
@@ -97,6 +97,6 @@ class PaymentUpdate(BaseModel):
     id: str = Field(alias="_id")
     price: Optional[str]
     destination: Optional[str]
-    date: Optional[str]                         #date is still string
+    date: Optional[str]                         #date is string
     travelId: Optional[str]
     username: Optional[str]
