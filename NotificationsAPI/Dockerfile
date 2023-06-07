@@ -20,4 +20,4 @@ COPY EmailSenderAPI.py /app/EmailSenderAPI.py
 
 EXPOSE 8010/tcp
 
-CMD ["uvicorn", "paymentsAPI:app", "--host", "0.0.0.0", "--port", "8010"]
+CMD ["uvicorn", "EmailSenderAPI:app", "--host", "0.0.0.0", "--port", "8010"]
