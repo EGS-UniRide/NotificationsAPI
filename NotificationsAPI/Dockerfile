@@ -18,6 +18,11 @@ RUN pip install -r requirements.txt
 
 COPY EmailSenderAPI.py /app/EmailSenderAPI.py
 
+COPY crud.py /app/crud.py
+COPY database.py /app/database.py
+COPY models.py /app/models.py
+COPY schemas.py /app/schemas.py
+
 EXPOSE 8010/tcp
 
 CMD ["uvicorn", "EmailSenderAPI:app", "--host", "0.0.0.0", "--port", "8010"]
