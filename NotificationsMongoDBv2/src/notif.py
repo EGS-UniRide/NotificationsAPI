@@ -26,7 +26,7 @@ conf = ConnectionConfig(
 )
 
 origins = [
-    "http://localhost:8010",
+    "*",
 ]
 
 @notifRouter.get("/")
